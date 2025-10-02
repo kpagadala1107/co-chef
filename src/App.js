@@ -69,7 +69,7 @@ const App = () => {
   return (
     <div className="app">
       <header className="app-header">
-        <h1>Recipe Manager</h1>
+        <h1>Co Chef</h1>
         <nav className="top-menu">
           <button 
             className={activeTab === 'all-recipes' ? 'active' : ''}
