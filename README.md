@@ -68,3 +68,20 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+
+
+create a React web app with these features
+Top menu to have 2 menu items - All Recipes, Add Recipe
+On load All-Recipes will be loaded showing list of recipes
+when a recipe is clicked.
+    Opens the list of steps. each step is shown as a card.
+    Step contains the ingredients, instructions. Flame intensity, cook time
+    Frist step contains play button. when clicked, time elapsed will show next it and play button changes to pause. When cook time is reached play button appears on next step and first step will show tick mark.
+
+When Add-Recipe is clicked.
+    Shows a form that collects 
+        RecipeName, Description, Total time, List of steps
+        Each step will ask for stepDescription, ingredients, instructions, flameNumber, cookTime
+
+store all recipes locally
