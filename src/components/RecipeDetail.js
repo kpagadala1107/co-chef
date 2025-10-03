@@ -61,12 +61,7 @@ const RecipeDetail = ({ recipe, onBack }) => {
     setTimeElapsed(0);
   };
 
-  // const getFlameIntensity = (flameNumber) => {
-  //   const flames = ['🔥', '🔥🔥', '🔥🔥🔥', '🔥🔥🔥🔥', '🔥🔥🔥🔥🔥'];
-  //   return flames[flameNumber - 1] || '🔥';
-  // };
 
-  // ...existing code...
 const getFlameIntensity = (flameNumber) => {
   // Always show 5 flames, grey out the ones above the intensity
   return (
@@ -151,6 +146,12 @@ const getFlameIntensity = (flameNumber) => {
                   <strong>Instructions:</strong> {step.instructions}
                   {/* {step.instructions} */}
                 </div>
+
+                {step.image && (
+                  <div className="step-image">
+                    <img src={step.image} alt={`Step ${index + 1} illustration`} style={{ maxWidth: '100%', borderRadius: '8px', marginTop: '0.5rem' }} />
+                  </div>
+                )}
 
                 {index === currentStepIndex && (
                   <div className="step-meta-controls">
