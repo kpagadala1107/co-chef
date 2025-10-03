@@ -11,20 +11,23 @@ const RecipeDetail = ({ recipe, onBack }) => {
     if (isPlaying && currentStepIndex < recipe.steps.length) {
       const currentStep = recipe.steps[currentStepIndex];
       const totalTimeInSeconds = currentStep.cookTime * 60;
-      
+
       interval = setInterval(() => {
         setTimeElapsed(prev => {
           const newTime = prev + 1;
-          
+
           // Check if we've reached the cook time
           if (newTime >= totalTimeInSeconds) {
             clearInterval(interval);
             setIsPlaying(false);
             setTimeElapsed(0);
-            
+
             // Move to next step if available
             if (currentStepIndex < recipe.steps.length - 1) {
               setCurrentStepIndex(currentStepIndex + 1);
+            } else {
+              // Mark last step as completed by moving index out of bounds
+              setCurrentStepIndex(recipe.steps.length);
             }
             return 0;
           }
@@ -58,10 +61,32 @@ const RecipeDetail = ({ recipe, onBack }) => {
     setTimeElapsed(0);
   };
 
-  const getFlameIntensity = (flameNumber) => {
-    const flames = ['🔥', '🔥🔥', '🔥🔥🔥', '🔥🔥🔥🔥', '🔥🔥🔥🔥🔥'];
-    return flames[flameNumber - 1] || '🔥';
-  };
+  // const getFlameIntensity = (flameNumber) => {
+  //   const flames = ['🔥', '🔥🔥', '🔥🔥🔥', '🔥🔥🔥🔥', '🔥🔥🔥🔥🔥'];
+  //   return flames[flameNumber - 1] || '🔥';
+  // };
+
+  // ...existing code...
+const getFlameIntensity = (flameNumber) => {
+  // Always show 5 flames, grey out the ones above the intensity
+  return (
+    <span>
+      {[1, 2, 3, 4, 5].map((num) => (
+        <span
+          key={num}
+          style={{
+            filter: num > flameNumber ? 'grayscale(100%) opacity(0.4)' : 'none',
+            fontSize: '1.2em',
+            marginRight: '2px',
+          }}
+        >
+          🔥
+        </span>
+      ))}
+    </span>
+  );
+};
+// ...existing code...
 
   const formatTime = (seconds) => {
     const mins = Math.floor(seconds / 60);
@@ -74,29 +99,32 @@ const RecipeDetail = ({ recipe, onBack }) => {
       <button className="back-button" onClick={onBack}>
         ← Back to Recipes
       </button>
-      
+
       <div className="recipe-header">
         <h2>{recipe.name}</h2>
         <p>{recipe.description}</p>
-        <div className="recipe-total-time">
-          Total Time: {recipe.totalTime} minutes
+        <div className="recipe-header-row">
+          <div className="recipe-total-time">
+            {/* Total Time: {recipe.totalTime} minutes */}
+            {recipe.totalTime} minutes
+          </div>
+          <button className="reset-btn" onClick={handleReset}>
+            🔄 Reset
+          </button>
         </div>
-        <button className="reset-btn" onClick={handleReset}>
-          🔄 Reset Recipe
-        </button>
+        <br/>
       </div>
 
       <div className="steps-container">
         {recipe.steps.map((step, index) => {
           const totalTimeInSeconds = step.cookTime * 60;
           const progress = (timeElapsed / totalTimeInSeconds) * 100;
-          
+
           return (
-            <div 
-              key={index} 
-              className={`step-card ${index === currentStepIndex ? 'active' : ''} ${
-                index < currentStepIndex ? 'completed' : ''
-              }`}
+            <div
+              key={index}
+              className={`step-card ${index === currentStepIndex ? 'active' : ''} ${index < currentStepIndex ? 'completed' : ''
+                }`}
             >
               <div className="step-header">
                 <h3>Step {index + 1}</h3>
@@ -110,58 +138,61 @@ const RecipeDetail = ({ recipe, onBack }) => {
 
               <div className="step-content">
                 <div className="step-description">
-                  <strong>Description:</strong> {step.stepDescription}
+                  {/* <strong>Description:</strong> {step.stepDescription} */}
+                  {/* {step.stepDescription} */}
                 </div>
-                
+
                 <div className="step-ingredients">
                   <strong>Ingredients:</strong> {step.ingredients}
+                  {/* <strong>{step.ingredients}</strong> <br /> */}
                 </div>
-                
+
                 <div className="step-instructions">
                   <strong>Instructions:</strong> {step.instructions}
-                </div>
-                
-                <div className="step-meta">
-                  <span className="flame-intensity">
-                    Flame: {getFlameIntensity(step.flameNumber)}
-                  </span>
-                  <span className="cook-time">
-                    Cook Time: {step.cookTime} minutes
-                  </span>
+                  {/* {step.instructions} */}
                 </div>
 
                 {index === currentStepIndex && (
-                  <div className="step-controls">
-                    <button 
-                      className="play-pause-btn"
-                      onClick={handlePlayPause}
-                    >
-                      {isPlaying ? '⏸️ Pause' : '▶️ Play'}
-                    </button>
-                    
-                    <div className="timer-display">
-                      <span className="time-elapsed">
-                        {formatTime(timeElapsed)} / {formatTime(totalTimeInSeconds)}
+                  <div className="step-meta-controls">
+                    <div className="step-meta-left">
+                      <button
+                        className="play-pause-btn icon-only"
+                        aria-label={isPlaying ? "Pause" : "Play"}
+                        onClick={handlePlayPause}
+                      >
+                        {isPlaying ? '⏸️' : '▶️'}
+                      </button>
+                      <div className="timer-display">
+                        <span className="time-elapsed">
+                          {formatTime(timeElapsed)} / {formatTime(totalTimeInSeconds)}
+                        </span>
+                        {isPlaying && (
+                          <div className="progress-bar">
+                            <div
+                              className="progress-fill"
+                              style={{ width: `${progress}%` }}
+                            ></div>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                    <div className="step-meta-right">
+                      <span className="flame-intensity">
+                        {getFlameIntensity(step.flameNumber)}
                       </span>
-                      
-                      {isPlaying && (
-                        <div className="progress-bar">
-                          <div 
-                            className="progress-fill"
-                            style={{ width: `${progress}%` }}
-                          ></div>
-                        </div>
-                      )}
+                      <span className="cook-time">
+                        {step.cookTime} minutes
+                      </span>
                     </div>
                   </div>
                 )}
 
                 {index > currentStepIndex && (
-                  <button 
+                  <button
                     className="start-step-btn"
                     onClick={() => handleStepComplete(index)}
                   >
-                    Start This Step
+                    Start
                   </button>
                 )}
               </div>

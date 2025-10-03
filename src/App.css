@@ -121,12 +121,17 @@ body {
 }
 
 .recipe-header {
-  background: white;
-  padding: 30px;
-  border-radius: 12px;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-  margin-bottom: 30px;
-  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+
+.recipe-header-row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 0.25rem;
 }
 
 .recipe-header h2 {
@@ -204,22 +209,37 @@ body {
   margin-bottom: 15px;
 }
 
-.step-meta {
+.step-meta-controls {
   display: flex;
+  align-items: center;
   justify-content: space-between;
-  margin-top: 20px;
-  padding-top: 15px;
-  border-top: 1px solid #eee;
+  gap: 1rem;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  flex-wrap: wrap;
 }
 
-.step-controls {
+.step-meta-left {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.step-meta-right {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-left: auto;
+}
+
+/* .step-controls {
   display: flex;
   align-items: center;
   gap: 15px;
   margin-top: 20px;
   padding-top: 15px;
   border-top: 1px solid #eee;
-}
+} */
 
 .play-pause-btn {
   background: #2c5530;
@@ -377,11 +397,8 @@ body {
 .timer-display {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 8px;
-  flex-grow: 1;
+  align-items: flex-start;
 }
-
 .time-elapsed {
   font-weight: 600;
   color: #2c5530;
@@ -418,7 +435,7 @@ body {
   background: #5a6268;
 }
 
-.step-controls {
+/* .step-controls {
   display: flex;
   align-items: center;
   gap: 15px;
@@ -426,6 +443,13 @@ body {
   padding-top: 15px;
   border-top: 1px solid #eee;
   flex-wrap: wrap;
+} */
+
+.step-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem; /* space between icon and timer */
+  flex-wrap: nowrap;
 }
 
 /* Add these styles to your existing CSS */
@@ -531,6 +555,15 @@ body {
   background: #1e3a24;
 }
 
+.icon-only {
+  background: none;
+  border: none;
+  padding: 0;
+  font-size: 1.5rem; /* adjust as needed */
+  cursor: pointer;
+  outline: none;
+}
+
 /* Responsive adjustments */
 @media (max-width: 768px) {
   .recipe-actions {
@@ -564,5 +597,15 @@ body {
     flex-direction: column;
     align-items: flex-start;
     gap: 10px;
+  }
+}
+
+@media (max-width: 600px) {
+  .step-controls {
+    flex-direction: row;
+    gap: 0.5rem;
+  }
+  .timer-display {
+    font-size: 1rem;
   }
 }
